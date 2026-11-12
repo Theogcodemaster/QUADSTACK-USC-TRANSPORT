@@ -1,0 +1,207 @@
+VERSION LOG
+
+Version 1.6 — Request Timestamp
+
+Pending Jobs & Past Jobs
+- Added Request Timestamp field to Pending Jobs and Past Jobs detail views
+- Displays date and time (AM/PM) each request was submitted using createdAt from Firestore
+- Request Timestamp also included in printed PDF forms
+
+Version 1.4 — Export & Past Jobs Updates
+
+Export Reports
+- Export tab hidden on Android (native platform)
+- Acct Code column uses accountCode (890110) for both students and departments
+- Function column now uses analysisCode for both students and departments
+- Students: Function column shows S + Student ID
+- Departments: Function column shows analysis/function code
+
+Past Jobs
+- Added "All Jobs" toggle (ON/OFF) - default OFF hides priced jobs
+- Price badge ($amount Currency) shown on job cards when price is added
+- Account Code field pre-filled with 890110 for all job types
+- Student ID field auto-fills S + Student ID for student jobs
+- Function field added for department jobs
+
+Form
+- accountCode now saves as 890110 for all job types
+- analysisCode saves S + Student ID for students, department code for departments
+
+Version 1.0 — Initial Release
+
+Navigation & Views
+- Tab-based navigation with 5 views: Form, Calendar, Pending Jobs, Past Jobs, Export
+- Role-based access: Admin sees all views, Driver sees Calendar only, public sees Form
+- Responsive layout for desktop and mobile
+
+Transport Request Form
+- Contact information (email, name, telephone)
+- Department mode with cost centre search (autocomplete from 125 codes)
+- Student mode with student ID and auto-generated analysis code
+- Trip details (recipient, passengers, luggage with quantity selector)
+- Service type selection (one-way / round trip)
+- Pickup location with preset suggestions (USC Gym, Airport, Residence Halls)
+- Conditional flight number field (when pickup is Piarco Airport)
+- Dropoff location and return trip fields (for round trips)
+- Form validation and success/error status banners
+- Submission persists to Firestore
+
+Calendar
+- Year-at-a-glance with all 12 months in a responsive grid
+- Colour-coded driver dots on each day (Brent, Vincent, Tauren, Other)
+- Today highlighting and selected-day state
+- Year navigation with chevron buttons
+- Day detail modal — lists all trips for the selected day
+- Trip detail modal — full trip information display
+- Real-time updates via Firestore snapshot listener
+
+Pending Jobs
+- Real-time list of all requests sorted by creation date
+- Status filter bar: All, Pending, Approved, Cancelled (toggle on/off)
+- Colour-coded status badges and dots
+- Pagination (20 per page)
+- Job detail view with edit mode
+- Editable fields: name, pickup/dropoff, dates, times, flight, recipient, passengers, luggage, service type, driver, status
+- Driver autocomplete suggestions
+- Delete with confirmation modal
+
+Past Jobs
+- Completed jobs list grouped by month with month headers
+- Search by name, last name, or account name
+- Sort toggle: newest first / oldest first
+- Pagination (15 per page)
+- Job detail view with read-only grid
+- Edit mode for trip details (pencil toggle)
+- Driver assignment with autocomplete (Brent, Vincent, Tauren)
+- Administrator section: amount, currency toggle (TTD/USD), account code
+- Delete with confirmation modal
+
+Export Reports
+- Date range selection with start/end date pickers
+- Preset ranges: This month (25th–25th), Last month (25th–25th), Last 7 days, This year
+- Trip count and total amount preview
+- One-click Excel workbook generation via SheetJS
+- Sheet columns: Date, Acct Code, Account Name, Fund (10), Function, Transaction Description, Amount, Currency
+- Merged title header: "TRANSPORTATION REPORT - {Month Year}"
+- Currency formatting on amount column
+
+Authentication
+- Firebase email/password authentication
+- Admin and Driver role buttons with pre-filled emails
+- Inline login dropdown with password field
+- Persistent session via onAuthStateChanged
+- Logout with automatic view reset
+
+Design & UX
+- Custom colour palette with semantic tokens
+- Fraunces display font and Instrument Sans body font
+- Fade-in page transitions
+- Hover effects and interactive states
+- Modal overlays with backdrop blur
+- Responsive breakpoints at 1024px, 640px, and 480px
+- Keyboard-navigable autocomplete dropdowns
+
+Infrastructure
+- Firebase Firestore database (Requests collection)
+- Vite build toolchain with React 19
+- Cloudflare Pages deployment via Wrangler
+- 125 cost centres pre-loaded from university data
+- SVG favicon set for PWA support
+
+Version 1.1 — Bug Fixes & UI Improvements
+
+Account Code & Export Fixes
+- Separated accountCode and analysisCode fields for proper column mapping
+- Students: Account Code = S + Student ID, Function = blank
+- Departments: Account Code = blank (admin fills), Function = cost centre code
+- Account Name column: Departments show department name, Students show recipient name
+- Auto-sized Excel column widths to fit longest entry
+- Added Cancelled Jobs second sheet in Excel workbook
+- Export shows cancelled trip count in preview when applicable
+- Total sum row added to export report
+- Sheet descriptions updated to include cancelled sheet info
+
+Pending Jobs
+- Delete job now auto-refreshes and returns to job list
+- List card shows recipient name at top with date, pickup/dropoff locations and times, return time
+- Detail view header shows recipient name instead of requester name
+- List item click toggles detail view (click again to close)
+- Header bar clickable to close detail view
+- Edit/Delete/Back buttons use stopPropagation to prevent unintended closing
+- Mark as Completed now shows success modal with "Open Past Jobs" button
+- Clicking backdrop dismisses modals
+- Removed Assigned Driver and Status from edit mode
+- Added Assigned Driver section with Save button in read-only view
+- Added Status toggle buttons (Pending/Approved/Completed/Cancelled) in read-only view
+- Added Contact Client section with Call and Email buttons
+- Added Email Prompts section with Acceptance and Decline email templates
+
+Past Jobs
+- Delete confirmation modal now appears in front of detail view (was hidden behind)
+- Detail view header shows recipient name
+- List card "Recipient:" changed to "Name:" with first and last name
+- Detail view info grid shows "Name:" with requester name
+- Smooth scroll to top when opening detail view
+- Search expanded to include recipient name and department
+- Search placeholder updated to "Search by recipient, name, or department"
+
+Form
+- Added "5 working days in advance" notice modal after submission
+- Student ID placeholder updated
+
+Version 1.2 — Email & UX Improvements
+
+Contact Client & Email Prompts Redesign
+- Redesigned Contact Client buttons with circle icons (Phone, Mail), headings, subheadings, and chevron-right arrows
+- Redesigned Email Prompts buttons with circle icons (CheckCircle, XCircle), headings, subheadings, and mail icons
+- All email buttons now open Gmail compose in a new tab instead of default mail client
+- Phone button auto-detects 4-digit extensions and prepends 1-868-662-2241
+
+Acceptance Email
+- Full professional email template with USC Transport Department branding
+- Date formatted as words (e.g. "July 3rd 2026")
+- Time in 12-hour format (e.g. "2:30 PM")
+- Transport details section with date, time, location, driver, and contact
+- Phone and email contact information included
+
+Decline Email
+- Full professional email template with USC Transport Department branding
+- Polite decline message with contact information for further assistance
+
+Pending Jobs
+- Filter buttons (All, Pending, Approved, Cancelled) hidden when viewing job detail
+- Filter buttons reappear when pressing Back to return to list view
+
+Mobile Responsive
+- Detail view header stacks vertically on mobile
+- Status toggle buttons wrap and shrink on small screens
+- Past Jobs detail grid collapses to single column
+- Edit form grids collapse to single column
+- Contact Client / Email Prompts stack vertically on mobile
+
+Version 1.3 — Driver Updates, Export Fixes & Print Form
+
+Export Reports
+- Fixed Function column to use analysisCode only (no accountCode fallback) for departments
+- Ensured inserting account code does not overwrite the function/analysis code
+- Changed month export preset range from 25th–25th to 26th–25th
+
+Drivers
+- Added Jeremy Lennard (red dot) and Steven Larocque (pink dot) to calendar
+- Driver dots now match on both full names and first names (handles Firestore data variations)
+- Case-insensitive and whitespace-trimmed driver matching
+- Pending Jobs and Past Jobs driver autocompletes now use the same logic: dropdown list with .includes() filtering
+- Driver autocomplete always shows all 5 known drivers by default
+
+Transport Request Form
+- Added POS Ferry Terminal and Admin Carpark to pickup location suggestions
+
+Past Jobs
+- Added "Print Form" blue button in Administrator section
+- PDF generation with jspdf including Contact Info, Passenger & Trip Details, Trip Details, and Payment sections
+- Dates displayed in DD/MM/YYYY format on PDF
+- Times displayed in 12-hour format on PDF
+- PDF uses latest Firestore data (not stale snapshot)
+
+Admin
+- Fixed cost centre name typo: "VP of Student Services&Enrolment Management" → "VP of Student Services & Enrollment Management"
